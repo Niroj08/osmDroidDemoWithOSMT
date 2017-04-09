@@ -18,6 +18,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -91,13 +92,17 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
-        } else if (permissionCheckAccessCoarseLocation != PackageManager.PERMISSION_GRANTED) {
+        }
+
+        if (permissionCheckAccessCoarseLocation != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
-        } else if (permissionCheckAccessFineLocation != PackageManager.PERMISSION_GRANTED) {
+        }
+
+        if (permissionCheckAccessFineLocation != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -118,14 +123,14 @@ public class MainActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
 
         // Set min and max zoom level
-        mapView.setMinZoomLevel(8);
-        mapView.setMaxZoomLevel(18);
+        mapView.setMinZoomLevel(0);
+        mapView.setMaxZoomLevel(22);
 
 
         mapController = mapView.getController();
         mapController.setZoom(12);
 
-        //set marker of selected user location
+        // Set marker of selected user location
         locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mapView);
 
         Bitmap placeholder = BitmapFactory.decodeResource(getResources(), R.drawable.ic_placeholder);
@@ -133,10 +138,20 @@ public class MainActivity extends AppCompatActivity {
 
         locationOverlay.enableMyLocation();
         mapView.getOverlays().add(this.locationOverlay);
+
+        // Set compass in UI
+        compassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), mapView);
+        compassOverlay.enableCompass();
+        mapView.getOverlays().add(compassOverlay);
+
+        // Enable rotation on multitouch
+        rotationGestureOverlay = new RotationGestureOverlay(mapView);
+        rotationGestureOverlay.setEnabled(true);
+        mapView.getOverlays().add(this.rotationGestureOverlay);
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         //this will refresh the osmdroid configuration on resuming.
         //if you make changes to the configuration, use
