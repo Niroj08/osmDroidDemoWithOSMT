@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/north"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <EditText
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editNorth"
             android:hint="@string/west"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <EditText
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editWest"
             android:hint="@string/south"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <EditText
@@ -91,7 +91,7 @@
             android:layout_below="@id/editSouth"
             android:layout_marginBottom="@dimen/sixteen"
             android:hint="@string/east"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <Button
