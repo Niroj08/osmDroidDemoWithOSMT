@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String fileAppendix = "";
     private String url = "http://b.tile.openstreetmap.org/%d/%d/%d.png";
-    private String tempFolder = "/data/data/com.technotroop.offlinemapdemo/osmdroid/";
-    private String destinationFile = "/data/data/com.technotroop.offlinemapdemo/osmdroid/";
+    private String tempFolder = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/";
+    private String destinationFile = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/";
 
     private int zoomMin = 8;
     private int zoomMax = 20;

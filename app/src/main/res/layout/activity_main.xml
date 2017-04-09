@@ -1,11 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/sixteen"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/ten"
+        android:text="Download"
+        android:textColor="@android:color/white" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/sixteen"
+        android:animateLayoutChanges="true"
+        android:visibility="gone">
+
+        <EditText
+
+            android:id="@+id/editNorth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/north"
+            android:padding="@dimen/sixteen" />
+
+        <EditText
+            android:id="@+id/editWest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editNorth"
+            android:hint="@string/west"
+            android:padding="@dimen/sixteen" />
+
+        <EditText
+            android:id="@+id/editSouth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editWest"
+            android:hint="@string/south"
+            android:padding="@dimen/sixteen" />
+
+        <EditText
+            android:id="@+id/editEast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editSouth"
+            android:layout_marginBottom="@dimen/sixteen"
+            android:hint="@string/east"
+            android:padding="@dimen/sixteen" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editEast"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/ten"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editEast"
+            android:layout_marginLeft="@dimen/sixteen"
+            android:layout_toRightOf="@id/btnCancel"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/ten"
+            android:text="@string/confirm"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 
 </RelativeLayout>

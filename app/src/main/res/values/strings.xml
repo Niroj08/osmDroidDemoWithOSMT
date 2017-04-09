@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">android-osmDroidDemo</string>
+    <string name="north">North</string>
+    <string name="west">West</string>
+    <string name="south">South</string>
+    <string name="east">East</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>
