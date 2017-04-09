@@ -10,6 +10,7 @@
         android:layout_height="match_parent" />
 
     <Button
+        android:id="@+id/btnDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -21,6 +22,7 @@
         android:textColor="@android:color/white" />
 
     <RelativeLayout
+        android:id="@+id/containerGetDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,11 +32,11 @@
         android:visibility="gone">
 
         <EditText
-
             android:id="@+id/editNorth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/north"
+            android:inputType="numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <EditText
@@ -43,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editNorth"
             android:hint="@string/west"
+            android:inputType="numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <EditText
@@ -51,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editWest"
             android:hint="@string/south"
+            android:inputType="numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <EditText
@@ -60,6 +64,7 @@
             android:layout_below="@id/editSouth"
             android:layout_marginBottom="@dimen/sixteen"
             android:hint="@string/east"
+            android:inputType="numberDecimal"
             android:padding="@dimen/sixteen" />
 
         <Button

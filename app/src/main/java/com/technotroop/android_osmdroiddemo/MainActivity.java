@@ -13,6 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -33,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 3;
 
     private String fileAppendix = "";
+    // url from where map will be downloaded
     private String url = "http://b.tile.openstreetmap.org/%d/%d/%d.png";
-    private String tempFolder = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/";
-    private String destinationFile = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/";
+    // sotrage location
+    private String destinationFilePath = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/";
 
     private int zoomMin = 8;
     private int zoomMax = 20;
@@ -49,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
     private OSMMapTilePackager.ProgressNotification progressNotification;
 
     private MapView mapView;
+
+    private Button btnCancel;
+    private Button btnConfirm;
+    private Button btnDownload;
+
+    EditText editNorth;
+    EditText editSouth;
+    EditText editWest;
+    EditText editEast;
+
+    RelativeLayout containerGetDetails;
 
     private GeoPoint startPoint;
     private IMapController mapController;
@@ -76,6 +94,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mapView = (MapView) findViewById(R.id.mapView);
+
+        btnCancel = (Button) findViewById(R.id.btnCancel);
+        btnConfirm = (Button) findViewById(R.id.btnConfirm);
+        btnDownload = (Button) findViewById(R.id.btnDownload);
+
+        editNorth = (EditText) findViewById(R.id.editNorth);
+        editSouth = (EditText) findViewById(R.id.editSouth);
+        editWest = (EditText) findViewById(R.id.editWest);
+        editEast = (EditText) findViewById(R.id.editEast);
+
+        containerGetDetails = (RelativeLayout) findViewById(R.id.containerGetDetails);
 
         // Get permission for external storage
         int permissionCheckExternalStorage = ContextCompat.checkSelfPermission(this,
@@ -116,7 +145,105 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        // Set the map UI
         setUpMapView();
+
+        // Set onClick Listeners for the Download button
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Show the UI to get the details of map to download which is hidden by default and hide the clicked button
+                if (containerGetDetails.getVisibility() == View.GONE) {
+
+                    containerGetDetails.setVisibility(View.VISIBLE);
+                    btnDownload.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Set onClick Listener for the Cancel button
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Show Download button and close the get details UI
+                if (btnDownload.getVisibility() == View.GONE) {
+
+                    btnDownload.setVisibility(View.VISIBLE);
+                    containerGetDetails.setVisibility(View.GONE);
+                }
+
+            }
+        });
+
+        // Set onClick Listener for the Confirm button
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(editNorth.getText().toString())) {
+
+                    editNorth.setError("Value cannot be empty.");
+                    return;
+
+                } else if (TextUtils.isEmpty(editWest.getText().toString())) {
+
+                    editWest.setError("Value cannot be empty.");
+                    return;
+
+                } else if (TextUtils.isEmpty(editSouth.getText().toString())) {
+
+                    editSouth.setError("Value cannot be empty.");
+                    return;
+
+                } else if (TextUtils.isEmpty(editEast.getText().toString())) {
+
+                    editEast.setError("Value cannot be empty.");
+                    return;
+                }
+
+                // Get the values from edit text
+                north = Double.valueOf(editNorth.getText().toString());
+                west = Double.valueOf(editWest.getText().toString());
+                south = Double.valueOf(editSouth.getText().toString());
+                east = Double.valueOf(editEast.getText().toString());
+
+                // Set the destination folder
+                String destinationFileName = destinationFilePath
+                        + "Mapnik_location_"
+                        + north
+                        + "_"
+                        + west
+                        + "_"
+                        + south
+                        + "_"
+                        + east
+                        + ".zip";
+
+                // Set the temporary destination folder
+                String tempFolder = destinationFilePath
+                        + "Mapnik_location_"
+                        + north
+                        + "_"
+                        + west
+                        + "_"
+                        + south
+                        + "_"
+                        + east;
+
+                // Download MAPNIK map source with OSMMapTilePckager
+                OSMMapTilePackager.execute(url, destinationFileName, tempFolder, threadCount, fileAppendix, zoomMin, zoomMax, north, south, east, west, progressNotification);
+            }
+        });
+
+        // Show the progress status of the downloaded map
+        progressNotification = new OSMMapTilePackager.ProgressNotification() {
+            @Override
+            public void updateProgress(String s) {
+
+                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private void setUpMapView() {
