@@ -208,6 +208,27 @@ public class MainActivity extends AppCompatActivity {
                 south = Double.valueOf(editSouth.getText().toString());
                 east = Double.valueOf(editEast.getText().toString());
 
+                if (north > 90 || north < -90) {
+
+                    editNorth.setError("Value must range -90 to 90");
+                    return;
+
+                } else if (west > 180 || west < -180) {
+
+                    editWest.setError("Value must range -180 to 180");
+                    return;
+
+                } else if (south > 90 || south < -90) {
+
+                    editSouth.setError("Value must range -90 to 90");
+                    return;
+
+                } else if (east > 180 || east < -180) {
+
+                    editEast.setError("Value must range -180 to 180");
+                    return;
+                }
+
                 // Set the destination folder
                 String destinationFileName = destinationFilePath
                         + "Mapnik_location_"
