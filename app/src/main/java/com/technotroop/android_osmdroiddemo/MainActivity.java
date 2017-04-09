@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
                     containerGetDetails.setVisibility(View.VISIBLE);
                     btnDownload.setVisibility(View.GONE);
+                    btnViewOffline.setVisibility(View.GONE);
                 }
             }
         });
@@ -179,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
                 if (btnDownload.getVisibility() == View.GONE) {
 
                     btnDownload.setVisibility(View.VISIBLE);
+                    btnViewOffline.setVisibility(View.VISIBLE);
+
                     containerGetDetails.setVisibility(View.GONE);
                 }
 
