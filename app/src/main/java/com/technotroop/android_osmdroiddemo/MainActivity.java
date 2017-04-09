@@ -8,18 +8,17 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -46,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     // sotrage location
     private String destinationFilePath = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/Mapnik";
 
-    private int zoomMin = 8;
-    private int zoomMax = 20;
+    private int zoomMin = 10;
+    private int zoomMax = 16;
     private int threadCount = 2;
 
     private Double north;
@@ -270,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 mapView.setUseDataConnection(false);
-                mapView.setTileSource(new XYTileSource("Mapnik", 8, 18, 256, ".png", new String[]{}));
+                mapView.setTileSource(new XYTileSource("Mapnik", 10, 16, 256, ".png", new String[]{}));
             }
         });
 
@@ -279,10 +278,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void updateProgress(String s) {
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 if (s.equalsIgnoreCase("Arching complete, deleting temp files")) {
 
-                    progressBar.setVisibility(View.GONE);
-
+                    progressBar.setVisibility(View.INVISIBLE);
                     // Enable the buttons
                     btnConfirm.setEnabled(true);
                     btnCancel.setEnabled(true);
@@ -304,9 +304,6 @@ public class MainActivity extends AppCompatActivity {
                     south = null;
                     east = null;
 
-                } else {
-
-                    progressBar.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -322,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
 
         // Set min and max zoom level
-        mapView.setMinZoomLevel(0);
+        mapView.setMinZoomLevel(10);
         mapView.setMaxZoomLevel(22);
 
 
