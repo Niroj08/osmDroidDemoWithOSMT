@@ -24,6 +24,19 @@
     </FrameLayout>
 
     <Button
+        android:id="@+id/btnOfflineMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/sixteen"
+        android:layout_toLeftOf="@+id/btnDownload"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/ten"
+        android:text="View Offline"
+        android:textColor="@android:color/white" />
+
+
+    <Button
         android:id="@+id/btnDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

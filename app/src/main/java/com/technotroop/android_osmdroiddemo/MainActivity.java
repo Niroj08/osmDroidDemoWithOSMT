@@ -25,6 +25,7 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.mtp.OSMMapTilePackager;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnCancel;
     private Button btnConfirm;
     private Button btnDownload;
+    private Button btnViewOffline;
 
     EditText editNorth;
     EditText editSouth;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnConfirm = (Button) findViewById(R.id.btnConfirm);
         btnDownload = (Button) findViewById(R.id.btnDownload);
+        btnViewOffline = (Button) findViewById(R.id.btnOfflineMap);
 
         editNorth = (EditText) findViewById(R.id.editNorth);
         editSouth = (EditText) findViewById(R.id.editSouth);
@@ -255,6 +258,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // Download MAPNIK map source with OSMMapTilePckager
                 OSMMapTilePackager.execute(url, destinationFileName, tempFolder, threadCount, fileAppendix, zoomMin, zoomMax, north, south, east, west, progressNotification);
+            }
+        });
+
+        // onclick listener for offline map button\
+        btnViewOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mapView.setUseDataConnection(false);
+                mapView.setTileSource(new XYTileSource("Mapnik", 8, 18, 256, ".png", new String[]{}));
             }
         });
 
