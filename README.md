@@ -21,4 +21,9 @@ Feel free to look at the project and make changes accordingly if you think there
 
 This is the demo project while i learned osmDroid. Will be working with navigation in next updates, if I got time.
 
+The View Offline button logic works perfectly for stored maps. but is not displaying since have to set the geopoint
+
+Add desired lat and long
+mapView.setCenter(new GeoPoint(lat, long))
+
   
