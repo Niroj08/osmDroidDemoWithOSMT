@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private RotationGestureOverlay rotationGestureOverlay;
 
     private Context context;
+
+    private Location userLocation;
+    private LocationListener locationListener;
 
 
     @Override
@@ -128,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mapController = mapView.getController();
-        mapController.setZoom(12);
+        mapController.setZoom(16);
 
         // Set marker of selected user location
         locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mapView);
@@ -138,6 +144,41 @@ public class MainActivity extends AppCompatActivity {
 
         locationOverlay.enableMyLocation();
         mapView.getOverlays().add(this.locationOverlay);
+
+        // Get the location of the user
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // user location change listener
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                userLocation = location; // set the userLocation to newly changed location
+
+                if (userLocation != null) {
+
+                    startPoint = new GeoPoint(userLocation);
+                    mapController.setCenter(startPoint);
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 1000, locationListener);
 
         // Set compass in UI
         compassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), mapView);
