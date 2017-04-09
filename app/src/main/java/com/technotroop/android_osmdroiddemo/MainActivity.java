@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // url from where map will be downloaded
     private String url = "http://b.tile.openstreetmap.org/%d/%d/%d.png";
     // sotrage location
-    private String destinationFilePath = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/";
+    private String destinationFilePath = "/data/data/com.technotroop.android_osmdroiddemo/osmdroid/Mapnik";
 
     private int zoomMin = 8;
     private int zoomMax = 20;
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     EditText editSouth;
     EditText editWest;
     EditText editEast;
+
+    ProgressBar progressBar;
 
     RelativeLayout containerGetDetails;
 
@@ -103,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         editSouth = (EditText) findViewById(R.id.editSouth);
         editWest = (EditText) findViewById(R.id.editWest);
         editEast = (EditText) findViewById(R.id.editEast);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         containerGetDetails = (RelativeLayout) findViewById(R.id.containerGetDetails);
 
@@ -230,27 +235,23 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Set the destination folder
-                String destinationFileName = destinationFilePath
-                        + "Mapnik_location_"
-                        + north
-                        + "_"
-                        + west
-                        + "_"
-                        + south
-                        + "_"
-                        + east
-                        + ".zip";
+                String destinationFileName = destinationFilePath + ".zip";
 
                 // Set the temporary destination folder
-                String tempFolder = destinationFilePath
-                        + "Mapnik_location_"
-                        + north
-                        + "_"
-                        + west
-                        + "_"
-                        + south
-                        + "_"
-                        + east;
+                String tempFolder = destinationFilePath;
+
+                // Show progress bar
+                progressBar.setVisibility(View.VISIBLE);
+
+                // Disable the buttons
+                btnConfirm.setEnabled(false);
+                btnCancel.setEnabled(false);
+
+                // Disable the edit fields
+                editNorth.setEnabled(false);
+                editWest.setEnabled(false);
+                editSouth.setEnabled(false);
+                editEast.setEnabled(false);
 
                 // Download MAPNIK map source with OSMMapTilePckager
                 OSMMapTilePackager.execute(url, destinationFileName, tempFolder, threadCount, fileAppendix, zoomMin, zoomMax, north, south, east, west, progressNotification);
@@ -262,7 +263,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void updateProgress(String s) {
 
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                if (s.equalsIgnoreCase("Arching complete, deleting temp files")) {
+
+                    progressBar.setVisibility(View.GONE);
+
+                    // Enable the buttons
+                    btnConfirm.setEnabled(true);
+                    btnCancel.setEnabled(true);
+
+                    // Enable the edit fields
+                    editNorth.setEnabled(true);
+                    editWest.setEnabled(true);
+                    editSouth.setEnabled(true);
+                    editEast.setEnabled(true);
+
+                    // clear the edit fields
+                    editNorth.setText("");
+                    editWest.setText("");
+                    editSouth.setText("");
+                    editEast.setText("");
+
+                    north = null;
+                    west = null;
+                    south = null;
+                    east = null;
+
+                } else {
+
+                    progressBar.setVisibility(View.VISIBLE);
+                }
             }
         };
     }
