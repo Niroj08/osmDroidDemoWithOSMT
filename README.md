@@ -26,4 +26,4 @@ The View Offline button logic works perfectly for stored maps. but is not displa
 Add desired lat and long
 mapView.setCenter(new GeoPoint(lat, long))
 
-  
+Code was just for a demo purpose, sorry of it seems rough
